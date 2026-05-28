@@ -1,6 +1,6 @@
 # ASP.NET Core Web API Notes
 
-ASP.NET Core Web API を学ぶための日本語ノート集です。
+ASP.NET Core Web API を学ぶための日本語ノート集です。HTTP、DTO、バリデーション、例外設計、認証認可、DI、EF Core、OpenAPI、テスト、セキュリティまで、実務で迷いやすい判断を章ごとに整理します。
 
 `docs` 配下の Markdown を React / Vite 製ビューアで読み込み、GitHub Pages に公開します。デザインとドキュメントの粒度は [csharp-notes](https://github.com/t-shirayama/csharp-notes) と同じ形式にしています。
 
