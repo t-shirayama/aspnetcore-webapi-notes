@@ -20,3 +20,13 @@ app.Run();
 
 `Program.cs` は小さく保ち、処理が増えたら別のクラスや拡張メソッドへ分けます。
 
+```mermaid
+flowchart TD
+    A["WebApplication.CreateBuilder"] --> B["Services に依存関係を登録"]
+    B --> C["builder.Build"]
+    C --> D["Middleware を登録"]
+    D --> E["Endpoint / Controller を登録"]
+    E --> F["app.Run"]
+```
+
+`builder` の段階では部品を登録し、`app` の段階ではリクエスト処理の流れを作る、と分けて見ると理解しやすくなります。

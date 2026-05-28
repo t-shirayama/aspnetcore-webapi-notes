@@ -1,10 +1,34 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import rehypeHighlight from "rehype-highlight";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Chapter, chapters, getChapter } from "./content";
 import { chapterHref, homeHref, parseRoute } from "./router";
+
+let mermaidPromise: Promise<typeof import("mermaid").default> | undefined;
+
+function loadMermaid() {
+  mermaidPromise ??= import("mermaid").then(({ default: mermaid }) => {
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "strict",
+      theme: "base",
+      themeVariables: {
+        primaryColor: "#eff6ff",
+        primaryBorderColor: "#2563eb",
+        primaryTextColor: "#102a43",
+        lineColor: "#64748b",
+        fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
+      },
+    });
+
+    return mermaid;
+  });
+
+  return mermaidPromise;
+}
 
 function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -41,6 +65,68 @@ function navigateHash(event: MouseEvent<HTMLAnchorElement>, href: string) {
     window.location.hash = href;
   }
 }
+
+function MermaidDiagram({ chart }: { chart: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const diagramId = useId().replace(/:/g, "");
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    setError(null);
+
+    if (containerRef.current) {
+      containerRef.current.innerHTML = "";
+    }
+
+    loadMermaid()
+      .then((mermaid) => mermaid.render(`mermaid-${diagramId}`, chart))
+      .then(({ svg }) => {
+        if (!isCancelled && containerRef.current) {
+          containerRef.current.innerHTML = svg;
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setError("図を描画できませんでした。Mermaid の構文を確認してください。");
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [chart, diagramId]);
+
+  if (error) {
+    return (
+      <div className="mermaid-diagram mermaid-diagram-error">
+        <p>{error}</p>
+        <pre>
+          <code>{chart}</code>
+        </pre>
+      </div>
+    );
+  }
+
+  return <div className="mermaid-diagram" ref={containerRef} />;
+}
+
+const markdownComponents: Components = {
+  code({ className, children, ...props }) {
+    const language = /language-(\w+)/.exec(className || "")?.[1];
+
+    if (language === "mermaid") {
+      return <MermaidDiagram chart={String(children).replace(/\n$/, "")} />;
+    }
+
+    return (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    );
+  },
+};
 
 function Header() {
   return (
@@ -138,6 +224,7 @@ function ChapterPage({ chapter }: { chapter: Chapter }) {
             </header>
             <div className="markdown-body">
               <ReactMarkdown
+                components={markdownComponents}
                 rehypePlugins={[[rehypeHighlight, { detect: false, ignoreMissing: true }]]}
                 remarkPlugins={[remarkGfm]}
               >

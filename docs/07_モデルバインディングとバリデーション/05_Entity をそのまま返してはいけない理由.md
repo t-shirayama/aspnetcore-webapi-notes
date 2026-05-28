@@ -49,3 +49,15 @@ public record UpdateUserRequest(
 ```
 
 Request DTO は「外部から変更を許可する項目」、Response DTO は「外部へ公開する項目」と考えます。
+
+```mermaid
+flowchart LR
+    Request["Request DTO"] --> Service["Service"]
+    Service --> Entity["Entity"]
+    Entity --> Db["DB"]
+    Db --> Entity
+    Entity --> Mapper["Mapping"]
+    Mapper --> Response["Response DTO"]
+```
+
+外から入る形、内部で扱う形、外へ返す形を分けることで、API の契約と DB 構造を切り離せます。

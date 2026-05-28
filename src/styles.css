@@ -390,6 +390,32 @@ h3 {
   color: #334e68;
 }
 
+.mermaid-diagram {
+  overflow-x: auto;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  background: #fbfdff;
+  padding: 18px;
+}
+
+.mermaid-diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.mermaid-diagram-error {
+  border-color: #fecaca;
+  background: #fff7f7;
+}
+
+.mermaid-diagram-error p {
+  margin-top: 0;
+  color: #b91c1c;
+  font-weight: 700;
+}
+
 @media (max-width: 860px) {
   .chapter-layout {
     grid-template-columns: 1fr;

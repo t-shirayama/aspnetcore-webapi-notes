@@ -16,3 +16,14 @@ Cookie 認証を使う場合は CSRF 対策を考えます。Bearer トークン
 
 CORS は CSRF 対策そのものではありません。
 
+```mermaid
+flowchart TD
+    Browser["ブラウザー"] --> Cors{"CORS で許可された Origin か"}
+    Cors -- "いいえ" --> Block["ブラウザーがレスポンス利用をブロック"]
+    Cors -- "はい" --> Api["API へ送信"]
+    Api --> Auth{"Cookie 認証か"}
+    Auth -- "はい" --> Csrf["CSRF 対策を検討"]
+    Auth -- "いいえ" --> Token["Authorization ヘッダーなどを検討"]
+```
+
+CORS は「ブラウザーが別オリジンのレスポンスを利用してよいか」の制御です。CSRF は「ユーザーの意図しないリクエストを送らせる攻撃」への対策です。
