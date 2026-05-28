@@ -2,14 +2,14 @@
 
 ## Project Structure
 
-- `docs/` contains the learning notes. Use numbered chapter folders and numbered Markdown files.
+- `docs/` contains concise reference notes for later review. Use numbered chapter folders and numbered Markdown files.
 - `src/` contains the React viewer that loads Markdown from `docs/`.
 - `public/` contains static assets such as the favicon.
 - `.github/workflows/pages.yml` builds and deploys the site to GitHub Pages.
 
 ## Documentation Rules
 
-- Keep each note small enough to reread independently.
+- Keep each note small enough to revisit independently while implementing.
 - Put reference links in the chapter's final `参考サイト` note.
 - Prefer Microsoft Learn and official ASP.NET Core documentation for references.
 - Use backticks for API names, commands, HTTP methods, headers, and code identifiers.
