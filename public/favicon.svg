@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="ASP.NET Core Web API Notes">
+  <rect width="256" height="256" rx="44" fill="#2563eb" />
+  <path d="M64 86h128v84H64z" fill="none" stroke="#ffffff" stroke-width="16" stroke-linejoin="round" />
+  <path d="M64 112h128" stroke="#ffffff" stroke-width="16" stroke-linecap="round" />
+  <path d="M94 146h68" stroke="#ffffff" stroke-width="16" stroke-linecap="round" />
+</svg>
