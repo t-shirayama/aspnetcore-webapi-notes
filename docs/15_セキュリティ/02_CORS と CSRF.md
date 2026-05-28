@@ -16,6 +16,10 @@ Cookie 認証を使う場合は CSRF 対策を考えます。Bearer トークン
 
 CORS は CSRF 対策そのものではありません。
 
+また、CORS は認可の代わりにもなりません。CORS で許可していない Origin からでも、ブラウザー以外のクライアントやサーバー間通信では API を呼べます。
+
+「許可した画面からしか呼ばれないはず」と考えるのではなく、API 側で認証・認可を必ず確認します。
+
 ```mermaid
 flowchart TD
     Browser["ブラウザー"] --> Cors{"CORS で許可された Origin か"}

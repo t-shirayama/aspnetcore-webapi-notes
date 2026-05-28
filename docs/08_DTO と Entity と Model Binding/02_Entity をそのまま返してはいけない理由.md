@@ -31,3 +31,9 @@ public sealed record UserResponse(
 ```
 
 **Entity は内部モデル、Response DTO は公開モデル** と分けて考えます。
+
+DB 構造と API 契約を分けると、DB の都合でカラムを追加しても、すぐにレスポンス形式を変えずに済みます。
+
+例えば `PasswordHash`、`DeletedAt`、`InternalMemo` のような内部項目は、DB や業務処理には必要でもクライアントへ公開すべきではありません。
+
+Request DTO と Response DTO を分けることは、レスポンス互換性を守るだけでなく、Mass Assignment のような過剰更新を防ぐためにも重要です。
